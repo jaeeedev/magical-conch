@@ -12,7 +12,6 @@ type Props = {
 
 const ResultSection = ({ question, answer }: Props) => {
   const canvasRef = useRef<HTMLDivElement>(null);
-
   const handleDownload = () => {
     if (!canvasRef.current || question.length === 0) return;
     html2canvas(canvasRef.current, { scale: 2 }).then((canvas) => {
@@ -27,12 +26,13 @@ const ResultSection = ({ question, answer }: Props) => {
 
   return (
     question.length !== 0 && (
-      <div ref={canvasRef}>
-        <ResultImage img={QuestionPic}>{question}</ResultImage>
-        <ResultImage img={AnswerPic}>{answer}</ResultImage>
-
-        <DownloadButton isDone={true} onClick={handleDownload} />
-      </div>
+      <>
+        <div ref={canvasRef}>
+          <ResultImage img={QuestionPic}>{question}</ResultImage>
+          <ResultImage img={AnswerPic}>{answer}</ResultImage>
+        </div>
+        <DownloadButton onClick={handleDownload} />
+      </>
     )
   );
 };

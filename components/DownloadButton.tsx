@@ -1,21 +1,22 @@
-import React from "react";
+import React, { RefObject } from "react";
 
 type Props = {
-  isDone: boolean;
+  // isDone: boolean;
+  // ref: RefObject<HTMLButtonElement>;
   onClick: () => void;
 };
 
-const DownloadButton = ({ isDone, ...props }: Props) => {
+const DownloadButton = ({ ...props }: Props) => {
   return (
     <div>
-      {isDone && (
+      {
         <button
           className="fixed right-4 bottom-4 p-4 rounded-md bg-slate-800 text-white"
           {...props}
         >
           저장하기
         </button>
-      )}
+      }
     </div>
   );
 };
