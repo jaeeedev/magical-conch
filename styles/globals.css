@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: "ChosunGu";
-  src: local("ChosunGu"), url(../assets/ChosunGu.ttf);
+  src: local("ChosunGu"), url(../assets/ChosunGu.TTF);
 }
 @font-face {
   font-family: "Spongeboy";
