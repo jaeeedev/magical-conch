@@ -55,8 +55,7 @@ export default function Home() {
               style={{
                 zIndex: -1,
               }}
-              onDragEnd={(e, info) => {
-                const target = e.target as HTMLElement;
+              onDragEnd={() => {
                 if (!submitButtonRef.current) return;
                 submitButtonRef.current.click();
               }}
