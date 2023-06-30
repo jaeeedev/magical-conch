@@ -57,11 +57,7 @@ export default function Home() {
               }}
               onDragEnd={(e, info) => {
                 const target = e.target as HTMLElement;
-                if (
-                  !submitButtonRef.current ||
-                  target.getBoundingClientRect().right < 600
-                )
-                  return;
+                if (!submitButtonRef.current) return;
                 submitButtonRef.current.click();
               }}
             >
