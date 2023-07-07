@@ -24,11 +24,59 @@
 
 간단한 프로젝트기 때문에 재미있는 요소들이 필요하겠다는 생각이 들었습니다. framer-motion을 이용해 드래그, 클릭에 따른 애니메이션을 적용했습니다.
 
-## 겪은 문제
+## 문제 해결
+
+<details>
+<summary>📕 줄 드래그 관련 문제</summary>
+
+소라고둥은 이런 구조로 구현되어 있습니다.
+
+![image](https://github.com/jaeeedev/magical-conch/assets/72128840/284932a7-3fcc-4b5e-bd71-d0e76788e3f3)
+
+`1` 소라고둥 이미지  
+`2` 튀어나온 줄을 가리기 위한 흰 박스  
+`3` 당길 줄 이미지
+
+![image](https://github.com/jaeeedev/magical-conch/assets/72128840/69d7f997-3c19-4318-9282-d1c5e741877d)
+
+하지만 소라고둥 이미지가 더 위에있는 구조다 보니 서로 겹치는 부분에서 줄이 드래그되지 않고 소라고둥이 드래그되는 문제가 있었습니다.  
+framer-motion의 공식 문서를 찾아보던 중 `useDragControls` 이라는 훅을 발견했습니다. 해당 훅은 다른 요소를 드래그 가능한 요소와 연결하여 드래그를 컨트롤할 수 있도록 하는 용도였습니다. 주로 비디어 플레이어의 조절 버튼같은 용도로 사용되는 듯 했습니다.
 
 ![image](https://github.com/jaeeedev/pix/assets/72128840/c73b2296-0231-4c5e-b1fd-0a52b49dcdda)
 
-줄 위에 소라고둥 이미지가 올려진 형태기 때문에 줄이 아니라 소라고둥이 드래그되는 문제가 있었고 framer-motion의 `useDragControls` 훅을 통해 다른 요소와 드래그 이벤트를 연결해 문제를 해결했습니다. [문제 기록 포스트](https://jaypa.tistory.com/45)
+저는 소라고둥 이미지 위에 줄 이미지와 동일한 사이즈의 바를 하나 더 만들고 opacity를 0으로 설정한 다음, useDragControls로 줄 이미지에 연결해 주었습니다. (사진은 opacity를 50%로 올린 상태)  
+이제 줄을 드래그하면 가장 상단의 바에서 드래그가 전달되면서 줄이 당겨지는 효과가 구현됩니다.
+
+chrome의 device mode로 확인해보니 드래그가 되지 않는 문제를 확인했습니다. 다시 공식 문서를 확인해보니 터치스크린 환경에서 useDragControls를 지원하기 위해서는 컨트롤을 담당하는 요소에 `touch-action: none;` 속성을 지정해주어야 했습니다.
+
+```jsx
+<div
+  className="absolute top-[200px] left-[100px] w-[320px] h-[40px] bg-red-200 opacity-0 
+      z-2 touch-none"
+  onPointerDown={startDrag}
+/>
+```
+
+이 프로젝트는 테일윈드를 사용중이었으므로 해당 속성의 유틸리티 클래스명인 `touch-none`을 적용해 주었습니다.
+
+</details>
+
+<details>
+<summary>📕 이미지 드래그되지 않게 하기</summary>
+드래그를 할 때 상단에 있는 소라고둥이 반투명하게 클론되거나 파랗게 긁히는 현상이 있었습니다. 또한 자막이 출력된 이미지도 실수로 드래그할 경우 자막이나 이미지가 따로 긁히면서 별도의 요소로 보이는게 어색할 것 같았습니다.
+
+html의 `draggable` 속성을 `false`로 지정해 주었고, css도 추가적으로 설정해 드래그시 발생하는 효과들을 없애주었습니다.
+
+```css
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+```
+
+</details>
 
 ## 알게 된 것
 
